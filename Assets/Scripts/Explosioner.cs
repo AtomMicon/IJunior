@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Explosioner : MonoBehaviour
 {
-    public void Explosion()
+    public void Destroy()
     {
         Destroy(this.gameObject);
     }

@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Pointer : MonoBehaviour
 {
@@ -12,13 +12,15 @@ public class Pointer : MonoBehaviour
 
             if (Physics.Raycast(ray, out RaycastHit hit, rayDistance))
             {
-                Explosioner explosion = hit.collider.GetComponent<Explosioner>();
-                Spawner spawner = hit.collider.GetComponent<Spawner>();
+                Cube cube = hit.collider.GetComponent<Cube>();
 
-                if (explosion != null)
+                if (cube != null)
                 {
-                    explosion.Explosion();
-                    spawner.Spawn();
+                    cube.Explode();
+                }
+                else
+                {
+                    Debug.LogWarning("Cube component не найден на объекте: " + hit.collider.name);
                 }
             }
         }

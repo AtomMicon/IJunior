@@ -3,68 +3,39 @@ using System;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private GameObject prefab;
+    [SerializeField] private Cube _cubePrefab;
     [SerializeField] private int _spawnMinCount = 2;
     [SerializeField] private int _spawnMaxCount = 6;
-    [SerializeField] private float _spawnScaleMult = 0.5f;
-    [SerializeField] private float _spawnChanceReduce = 0.5f;
+    [SerializeField] private float _startSplitChance = 1f;
+    [SerializeField] private float _sizeReduce = 2f;
+    [SerializeField] private float _chanceReduce = 2f;
 
-    public int SpawnGeneration = 0;
+    private Cube _cube;
 
-    public void Spawn()
+    public void Create()
     {
-        if (SpawnAvableCheck())
+        int cubeCount = CountCheck();
+        float cubeSize = Resize();
+
+        for (int i = 0; i <= cubeCount; i++)
         {
-            float spawnScale = Mathf.Max(0.1f, 1f - _spawnScaleMult * SpawnGeneration);
-            int spawnCount = UnityEngine.Random.Range(_spawnMinCount, _spawnMaxCount + 1);
-
-            for (int i = 0; i < spawnCount; i++)
-            {
-                GameObject clone = Instantiate(prefab, transform.position, Quaternion.identity);
-                clone.transform.localScale = Vector3.one * spawnScale;
-
-                ChangeColor(clone);
-                SpawnerGenerationIncrease(clone);
-            }
+            Cube newCube = Instantiate(_cubePrefab, transform.position, Quaternion.identity);
+            newCube.transform.localScale = new Vector3(cubeSize, cubeSize, cubeSize);
+            newCube._spawnChance /= _chanceReduce;
         }
     }
 
-    private bool SpawnAvableCheck()
+    private int CountCheck()
     {
-        bool isSpawnAvable = true;
-        float spawnChance = Mathf.Max(0f, 1f - _spawnChanceReduce * SpawnGeneration);
-
-        if (prefab == null)
-        {
-            Debug.LogError("Prefab не назначен в инспекторе!");
-            isSpawnAvable = false;
-            return isSpawnAvable;
-        }
-        else if (UnityEngine.Random.value > spawnChance)
-        {
-            isSpawnAvable = false;
-            return isSpawnAvable;
-        }
-
-        return isSpawnAvable;
+        int count = UnityEngine.Random.Range(_spawnMinCount, _spawnMaxCount + 1);
+        return count;
     }
 
-    private void ChangeColor(GameObject clone)
+    private float Resize()
     {
-        Renderer renderer = clone.GetComponent<Renderer>();
+        float currentSize = _cube._size;
+        float newSize = currentSize / _sizeReduce;
 
-        if (renderer != null)
-        {
-            renderer.material = new Material(renderer.material);
-            renderer.material.color = UnityEngine.Random.ColorHSV();
-        }
-    }
-
-    private void SpawnerGenerationIncrease(GameObject clone)
-    {
-        Spawner cloneSpawner = clone.GetComponent<Spawner>();
-
-        if (cloneSpawner != null)
-            cloneSpawner.SpawnGeneration = this.SpawnGeneration + 1;
+        return newSize;
     }
 }
