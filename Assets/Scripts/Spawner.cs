@@ -7,12 +7,6 @@ public class Spawner : MonoBehaviour
 
     public Cube Create()
     {
-        Cube newCube = Instantiate(_cubePrefab);
-        return newCube;
-    }
-
-    public void Destroy(Cube cube)
-    {
-        Destroy(cube.gameObject);
+        return Instantiate(_cubePrefab);
     }
 }

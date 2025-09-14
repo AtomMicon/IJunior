@@ -5,32 +5,28 @@ public class Cube : MonoBehaviour
 {
     [SerializeField] private float _spawnChance;
     [SerializeField] private float _size;
-    [SerializeField] private Vector3 _position;
-    [SerializeField] private Color _color;
 
     public float SpawnChance => _spawnChance;
     public float Size => _size;
 
-    public void Initialize(float size, float spawnChance, Color color, Vector3 position)
+    private void OnEnable()
+    {
+        ColorChanger();
+    }
+
+    public void Initialize(float size, float spawnChance, Vector3 position)
     {
         _size = size;
         _spawnChance = spawnChance;
-        _color = color;
-        _position = position;
 
-        SetCube();
+        transform.localScale = Vector3.one * _size;
+        transform.position = position;
     }
 
-    private void SetCube()
+    private void ColorChanger()
     {
-        transform.localScale = Vector3.one * _size;
-        transform.position = _position;
-        
+        Color color = Random.ColorHSV();
         var renderer = GetComponent<Renderer>();
-
-        if (renderer != null)
-        {
-            renderer.material.color = _color;
-        }
+        renderer.material.color = color;
     }
 }
