@@ -1,33 +1,36 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Cube : MonoBehaviour
 {
-    public float _size { get; private set; }
-    public float _spawnChance = 100;
-    private Spawner _spawner;
-    private Explosioner _explosioner;
+    [SerializeField] private float _spawnChance;
+    [SerializeField] private float _size;
+    [SerializeField] private Vector3 _position;
+    [SerializeField] private Color _color;
 
-    private void Start()
+    public float SpawnChance => _spawnChance;
+    public float Size => _size;
+
+    public void Initialize(float size, float spawnChance, Color color, Vector3 position)
     {
-        _size = transform.localScale.x;
+        _size = size;
+        _spawnChance = spawnChance;
+        _color = color;
+        _position = position;
+
+        SetCube();
     }
 
-    public void Explode()
+    private void SetCube()
     {
-        if (SpawnCheck() == true)
-            _spawner.Create();
+        transform.localScale = Vector3.one * _size;
+        transform.position = _position;
+        
+        var renderer = GetComponent<Renderer>();
 
-        _explosioner.Destroy();
-    }
-
-    private bool SpawnCheck()
-    {
-        int spawnRoll = Random.Range(1, 100 + 1);
-        bool isAvableSpawn = true;
-
-        if (spawnRoll > _spawnChance)
-            isAvableSpawn = false;
-
-        return isAvableSpawn;
+        if (renderer != null)
+        {
+            renderer.material.color = _color;
+        }
     }
 }

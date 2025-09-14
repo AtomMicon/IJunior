@@ -1,8 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Pointer : MonoBehaviour
 {
     [SerializeField] private float rayDistance = 100f;
+
+    public event Action<Cube> Clicker;
 
     void Update()
     {
@@ -16,7 +19,7 @@ public class Pointer : MonoBehaviour
 
                 if (cube != null)
                 {
-                    cube.Explode();
+                    Clicker?.Invoke(cube);
                 }
                 else
                 {
