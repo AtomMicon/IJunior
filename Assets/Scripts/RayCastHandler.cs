@@ -1,14 +1,15 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RayCastHandler : MonoBehaviour
 {
-    [SerializeField] private Pointer _pointer;
+    [SerializeField] private Raycaster _pointer;
     [SerializeField] private Spawner _spawner;
     [SerializeField] private Exploder _exploder;
     [SerializeField] private int _spawnMinCount = 2;
     [SerializeField] private int _spawnMaxCount = 6;
-    [SerializeField] private float _sizeReduce = 2f;
-    [SerializeField] private float _chanceReduce = 2f;
+    [SerializeField] private int _spawnChanceMax = 100;
+    [SerializeField] private int _spawnChanceMin = 1;
 
     private void OnEnable()
     {
@@ -22,33 +23,27 @@ public class RayCastHandler : MonoBehaviour
 
     private void Explode(Cube cube)
     {
+        List<Cube> newCubes= new List<Cube>();
+
         if (CanSpawn(cube) == true)
         {
-            int spawnCount = SpawnCount();
-            float cubeNewSize = cube.Size / _sizeReduce;
-            float newSpawnChance = cube.SpawnChance / _chanceReduce;
-            Vector3 newPosition = cube.transform.position;
-
-            for (int i = 0; i < spawnCount; i++)
-            {
-                _spawner.Create();
-                _spawner.Initialize(cubeNewSize, newSpawnChance, newPosition);
-            }
+            int spawnCount = CountSpawnCount();
+            newCubes = _spawner.Create(spawnCount, cube);
         }
 
-        _exploder.Explode(cube);
+        _exploder.Explode(cube, newCubes);
         _spawner.DestroyOldCube(cube);
     }
 
     private bool CanSpawn(Cube cube)
     {
         float spawnChance = cube.SpawnChance;
-        int spawnRoll = Random.Range(1, 100 + 1);
+        int spawnRoll = Random.Range(_spawnChanceMin, _spawnChanceMax + 1);
 
         return spawnRoll <= spawnChance;
     }
 
-    private int SpawnCount()
+    private int CountSpawnCount()
     {
         int spawnCount = Random.Range(_spawnMinCount, _spawnMaxCount + 1);
         return spawnCount;

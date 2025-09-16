@@ -1,20 +1,35 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
     [SerializeField] private Cube _cubePrefab;
+    [SerializeField] private float _sizeReduce = 2f;
+    [SerializeField] private float _chanceReduce = 2f;
 
-    private Pointer _pointer;
     private Cube _currentCube;
 
-    public void Create()
+    public List<Cube> Create(int spawnCount, Cube cube)
     {
-        _currentCube = Instantiate(_cubePrefab);
+        List<Cube> cubes = new List<Cube>();
+
+        for (int i = 0; i < spawnCount; i++)
+        {
+            _currentCube = Instantiate(cube);
+            Initialize();
+            cubes.Add(_currentCube);
+        }
+
+        return cubes;
     }
 
-    public void Initialize(float size, float spawnChance, Vector3 position)
+    public void Initialize()
     {
-        _currentCube.Initialize(size, spawnChance, position);
+        float cubeNewSize = _currentCube.Size / _sizeReduce;
+        float newSpawnChance = _currentCube.SpawnChance / _chanceReduce;
+        Vector3 newCubePosition = _currentCube.transform.position;
+
+        _currentCube.Initialize(cubeNewSize, newSpawnChance, newCubePosition);
     }
 
     public void DestroyOldCube(Cube oldCube)

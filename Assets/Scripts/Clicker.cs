@@ -3,8 +3,9 @@ using UnityEngine;
 
 public class Clicker : MonoBehaviour
 {
-    public event Action Clicked;
     private const int LeftMouseButton = 0;
+
+    public event Action Clicked;
 
     private void Update()
     {

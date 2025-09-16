@@ -584,6 +584,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cubePrefab: {fileID: 2225654982476890626, guid: 4e5394b8ccba60a46ad5b9f3a1310d3e, type: 3}
+  _sizeReduce: 2
+  _chanceReduce: 2
 --- !u!114 &539242915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -601,8 +603,8 @@ MonoBehaviour:
   _exploder: {fileID: 539242916}
   _spawnMinCount: 2
   _spawnMaxCount: 6
-  _sizeReduce: 2
-  _chanceReduce: 2
+  _spawnChanceMax: 100
+  _spawnChanceMin: 1
 --- !u!114 &539242916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -615,8 +617,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8cedc22208a7db4ba99aacf5c58bac8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _explosionForce: 400
-  _explosionRadius: 10
+  _explosionForce: 200
+  _explosionRadius: 0
 --- !u!114 &539242917
 MonoBehaviour:
   m_ObjectHideFlags: 0

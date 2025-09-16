@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class Pointer : MonoBehaviour
+public class Raycaster : MonoBehaviour
 {
     [SerializeField] private Clicker _clicker;
     [SerializeField] private float _rayDistance = 100f;
@@ -33,9 +33,8 @@ public class Pointer : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, _rayDistance))
         {
             Collider collider = hit.collider;
-            collider.TryGetComponent(out Cube cube);
-
-            if (cube != null)
+            
+            if (collider.TryGetComponent(out Cube cube))
                 return cube;
             else
                 Debug.LogWarning("Cube component не найден на объекте: " + hit.collider.name);
