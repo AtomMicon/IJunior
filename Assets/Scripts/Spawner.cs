@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System;
 
 public class Spawner : MonoBehaviour
 {
@@ -7,15 +6,6 @@ public class Spawner : MonoBehaviour
 
     private Pointer _pointer;
     private Cube _currentCube;
-
-    private void OnEnable()
-    {
-        _pointer.Pointed += DestroyOldCube;
-    }
-    private void OnDisable()
-    {
-        _pointer.Pointed -= DestroyOldCube;
-    }
 
     public void Create()
     {

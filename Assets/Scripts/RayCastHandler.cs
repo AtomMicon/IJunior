@@ -37,6 +37,7 @@ public class RayCastHandler : MonoBehaviour
         }
 
         _exploder.Explode(cube);
+        _spawner.DestroyOldCube(cube);
     }
 
     private bool CanSpawn(Cube cube)
