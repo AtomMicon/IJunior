@@ -36,7 +36,10 @@ public class Pointer : MonoBehaviour
             collider.TryGetComponent(out Cube cube);
 
             if (cube != null)
+                return cube;
+            else
                 Debug.LogWarning("Cube component не найден на объекте: " + hit.collider.name);
+
         }
 
         return null;
