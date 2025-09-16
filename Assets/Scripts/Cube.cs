@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Cube : MonoBehaviour
 {
@@ -25,7 +24,7 @@ public class Cube : MonoBehaviour
 
     private void ColorChanger()
     {
-        Color color = Random.ColorHSV();
+        Color color = UnityEngine.Random.ColorHSV();
         var renderer = GetComponent<Renderer>();
         renderer.material.color = color;
     }

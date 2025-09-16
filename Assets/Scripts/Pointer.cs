@@ -3,29 +3,42 @@ using UnityEngine;
 
 public class Pointer : MonoBehaviour
 {
-    [SerializeField] private float rayDistance = 100f;
+    [SerializeField] private Clicker _clicker;
+    [SerializeField] private float _rayDistance = 100f;
 
-    public event Action<Cube> Clicker;
+    public event Action<Cube> Pointed;
 
-    void Update()
+    private void OnEnable()
     {
-        if (Input.GetMouseButtonDown(0))
+        _clicker.Clicked += Point;
+    }
+
+    private void OnDisable()
+    {
+        _clicker.Clicked -= Point;
+    }
+
+    private void Point()
+    {
+        Cube cube = Raycast();
+
+        if (cube != null)
+            Pointed?.Invoke(cube);
+    }
+
+    private Cube Raycast()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, _rayDistance))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Collider collider = hit.collider;
+            collider.TryGetComponent(out Cube cube);
 
-            if (Physics.Raycast(ray, out RaycastHit hit, rayDistance))
-            {
-                Cube cube = hit.collider.GetComponent<Cube>();
-
-                if (cube != null)
-                {
-                    Clicker?.Invoke(cube);
-                }
-                else
-                {
-                    Debug.LogWarning("Cube component не найден на объекте: " + hit.collider.name);
-                }
-            }
+            if (cube != null)
+                Debug.LogWarning("Cube component не найден на объекте: " + hit.collider.name);
         }
+
+        return null;
     }
 }

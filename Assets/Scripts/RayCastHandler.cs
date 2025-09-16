@@ -12,17 +12,17 @@ public class RayCastHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        _pointer.Clicker += Explode;
+        _pointer.Pointed += Explode;
     }
 
     private void OnDisable()
     {
-        _pointer.Clicker -= Explode;
+        _pointer.Pointed -= Explode;
     }
 
     private void Explode(Cube cube)
     {
-        if (SpawnCheck(cube) == true)
+        if (CanSpawn(cube) == true)
         {
             int spawnCount = SpawnCount();
             float cubeNewSize = cube.Size / _sizeReduce;
@@ -31,19 +31,19 @@ public class RayCastHandler : MonoBehaviour
 
             for (int i = 0; i < spawnCount; i++)
             {
-                Cube newCube = _spawner.Create();
-                newCube.Initialize(cubeNewSize, newSpawnChance, newPosition);
+                _spawner.Create();
+                _spawner.Initialize(cubeNewSize, newSpawnChance, newPosition);
             }
         }
 
         _exploder.Explode(cube);
     }
 
-    private bool SpawnCheck(Cube cube)
+    private bool CanSpawn(Cube cube)
     {
         float spawnChance = cube.SpawnChance;
         int spawnRoll = Random.Range(1, 100 + 1);
- 
+
         return spawnRoll <= spawnChance;
     }
 
