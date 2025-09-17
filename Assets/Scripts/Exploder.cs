@@ -6,7 +6,7 @@ public class Exploder : MonoBehaviour
     [SerializeField] private float _explosionForce;
     [SerializeField] private float _explosionRadius;
 
-    public void Explode(Cube oldCube, List<Cube> newCubes)
+    public void ExplodeCubes(Cube oldCube, List<Cube> newCubes)
     {
         foreach (Cube cube in newCubes)
         {

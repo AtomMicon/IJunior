@@ -25,13 +25,13 @@ public class DivisionHandler : MonoBehaviour
     {
         List<Cube> newCubes= new List<Cube>();
 
-        if (CanSpawn(cube) == true)
+        if (CanSpawn(cube))
         {
             int spawnCount = CalculateSpawnCount();
             newCubes = _spawner.Create(spawnCount, cube);
         }
 
-        _exploder.Explode(cube, newCubes);
+        _exploder.ExplodeCubes(cube, newCubes);
         _spawner.DestroyOldCube(cube);
     }
 

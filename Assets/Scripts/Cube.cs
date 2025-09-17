@@ -8,6 +8,13 @@ public class Cube : MonoBehaviour
     public float SpawnChance => _spawnChance;
     public float Size => _size;
 
+    private Renderer _renderer;
+
+    private void Awake()
+    {
+        _renderer = GetComponent<Renderer>();
+    }
+
     private void OnEnable()
     {
         ColorChanger();
@@ -25,7 +32,6 @@ public class Cube : MonoBehaviour
     private void ColorChanger()
     {
         Color color = UnityEngine.Random.ColorHSV();
-        var renderer = GetComponent<Renderer>();
-        renderer.material.color = color;
+        _renderer.material.color = color;
     }
 }

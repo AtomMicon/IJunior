@@ -3,22 +3,22 @@ using UnityEngine;
 
 public class Raycaster : MonoBehaviour
 {
-    [SerializeField] private Clicker _clicker;
+    [SerializeField] private InputReader _clicker;
     [SerializeField] private float _rayDistance = 100f;
 
     public event Action<Cube> Pointed;
 
     private void OnEnable()
     {
-        _clicker.Clicked += Point;
+        _clicker.Clicked += SelectCube;
     }
 
     private void OnDisable()
     {
-        _clicker.Clicked -= Point;
+        _clicker.Clicked -= SelectCube;
     }
 
-    private void Point()
+    private void SelectCube()
     {
         Cube cube = Raycast();
 
@@ -28,7 +28,7 @@ public class Raycaster : MonoBehaviour
 
     private Cube Raycast()
     {
-        Ray ray = _clicker.GetRay();
+        Ray ray = GetRay();
 
         if (Physics.Raycast(ray, out RaycastHit hit, _rayDistance))
         {
@@ -42,5 +42,10 @@ public class Raycaster : MonoBehaviour
         }
 
         return null;
+    }
+
+    private Ray GetRay()
+    {
+        return Camera.main.ScreenPointToRay(Input.mousePosition);
     }
 }
