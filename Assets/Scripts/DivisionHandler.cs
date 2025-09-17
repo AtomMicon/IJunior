@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RayCastHandler : MonoBehaviour
+public class DivisionHandler : MonoBehaviour
 {
     [SerializeField] private Raycaster _pointer;
     [SerializeField] private Spawner _spawner;
@@ -27,7 +27,7 @@ public class RayCastHandler : MonoBehaviour
 
         if (CanSpawn(cube) == true)
         {
-            int spawnCount = CountSpawnCount();
+            int spawnCount = CalculateSpawnCount();
             newCubes = _spawner.Create(spawnCount, cube);
         }
 
@@ -43,7 +43,7 @@ public class RayCastHandler : MonoBehaviour
         return spawnRoll <= spawnChance;
     }
 
-    private int CountSpawnCount()
+    private int CalculateSpawnCount()
     {
         int spawnCount = Random.Range(_spawnMinCount, _spawnMaxCount + 1);
         return spawnCount;

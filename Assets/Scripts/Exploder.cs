@@ -8,11 +8,11 @@ public class Exploder : MonoBehaviour
 
     public void Explode(Cube oldCube, List<Cube> newCubes)
     {
-        foreach (var cube in newCubes)
+        foreach (Cube cube in newCubes)
         {
-            if (cube.TryGetComponent<Rigidbody>(out var rb))
+            if (cube.TryGetComponent(out Rigidbody rigidBody))
             {
-                rb.AddExplosionForce(_explosionForce, oldCube.transform.position, _explosionRadius);
+                rigidBody.AddExplosionForce(_explosionForce, oldCube.transform.position, _explosionRadius);
             }
         }
     }

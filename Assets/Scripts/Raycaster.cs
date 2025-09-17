@@ -28,7 +28,7 @@ public class Raycaster : MonoBehaviour
 
     private Cube Raycast()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = _clicker.GetRay();
 
         if (Physics.Raycast(ray, out RaycastHit hit, _rayDistance))
         {

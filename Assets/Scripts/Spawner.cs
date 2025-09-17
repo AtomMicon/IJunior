@@ -16,14 +16,14 @@ public class Spawner : MonoBehaviour
         for (int i = 0; i < spawnCount; i++)
         {
             _currentCube = Instantiate(cube);
-            Initialize();
+            InitializeCube();
             cubes.Add(_currentCube);
         }
 
         return cubes;
     }
 
-    public void Initialize()
+    private void InitializeCube()
     {
         float cubeNewSize = _currentCube.Size / _sizeReduce;
         float newSpawnChance = _currentCube.SpawnChance / _chanceReduce;
