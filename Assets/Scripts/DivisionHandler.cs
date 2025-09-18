@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class DivisionHandler : MonoBehaviour
@@ -23,15 +23,21 @@ public class DivisionHandler : MonoBehaviour
 
     private void Explode(Cube cube)
     {
-        List<Cube> newCubes= new List<Cube>();
+        List<Cube> newCubes = new List<Cube>();
 
         if (CanSpawn(cube))
         {
             int spawnCount = CalculateSpawnCount();
             newCubes = _spawner.Create(spawnCount, cube);
+            _exploder.ScatterNewCubes(cube, newCubes);
+            Debug.Log("Произошло разделение");
+        }
+        else
+        {
+            _exploder.ExpolodeOldCube(cube);
+            Debug.Log("Произошел врыв");
         }
 
-        _exploder.ExplodeCubes(cube, newCubes);
         _spawner.DestroyOldCube(cube);
     }
 
