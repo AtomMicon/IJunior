@@ -3,33 +3,31 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private Cube _cubePrefab;
     [SerializeField] private float _sizeReduce = 2f;
     [SerializeField] private float _chanceReduce = 2f;
 
-    private Cube _currentCube;
-
     public List<Cube> Create(int spawnCount, Cube cube)
     {
-        List<Cube> cubes = new List<Cube>();
+        List<Cube> newCubes = new List<Cube>();
 
         for (int i = 0; i < spawnCount; i++)
         {
-            _currentCube = Instantiate(cube);
-            InitializeCube();
-            cubes.Add(_currentCube);
+            Cube newCube = InitializeCube(Instantiate(cube));
+            newCubes.Add(newCube);
         }
 
-        return cubes;
+        return newCubes;
     }
 
-    private void InitializeCube()
+    private Cube InitializeCube(Cube cube)
     {
-        float cubeNewSize = _currentCube.Size / _sizeReduce;
-        float newSpawnChance = _currentCube.SpawnChance / _chanceReduce;
-        Vector3 newCubePosition = _currentCube.transform.position;
+        float cubeNewSize = cube.Size / _sizeReduce;
+        float newSpawnChance = cube.SpawnChance / _chanceReduce;
+        Vector3 newCubePosition = cube.transform.position;
 
-        _currentCube.Initialize(cubeNewSize, newSpawnChance, newCubePosition);
+        cube.Initialize(cubeNewSize, newSpawnChance, newCubePosition);
+        
+        return cube;
     }
 
     public void DestroyOldCube(Cube oldCube)

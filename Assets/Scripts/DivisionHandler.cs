@@ -27,15 +27,13 @@ public class DivisionHandler : MonoBehaviour
 
         if (CanSpawn(cube))
         {
-            int spawnCount = CalculateSpawnCount();
-            newCubes = _spawner.Create(spawnCount, cube);
-            _exploder.ScatterNewCubes(cube, newCubes);
+            newCubes = _spawner.Create(CalculateSpawnCount(), cube);
+            _exploder.Explode(cube, newCubes);
             Debug.Log("Произошло разделение");
         }
         else
         {
-            _exploder.ExpolodeOldCube(cube);
-            Debug.Log("Произошел врыв");
+            _exploder.Explode(cube);
         }
 
         _spawner.DestroyOldCube(cube);
